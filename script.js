@@ -3,22 +3,18 @@ function debounce(callback, delay, immediate = false) {
 
   return function (...args) {
     const context = this;
-    const callNow = immediate && !timer;
 
     if (timer) {
       clearTimeout(timer);
     }
 
-    timer = setTimeout(() => {
-      timer = null;
-      if (!immediate) {
-        callback.apply(context, args);
-      }
-    }, delay);
-
-    if (callNow) {
+    if (immediate && !timer) {
       callback.apply(context, args);
     }
+
+    timer = setTimeout(() => {
+      timer = null;
+    }, delay);
   };
 }
 
